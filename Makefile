@@ -5,18 +5,26 @@ CONTAINER_NAME=django
 IMAGE_NAME=felipe6659/orbita
 DOCKER_COMPOSE_DEV=docker-compose.dev.yml
 DOCKER_COMPOSE_DEV_BD=docker-compose.dev.db.yml
+GET_CONTAINERS=`docker ps -a -q`
+USER=patrick
 
 ## @ Start project
 .PHONY: install up_all down_all
-install: build_image up_all reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
+install: reset_configs_files_docker build_image up_all create_django_superuser reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
 
-up_all: up_infra_dev ## Sobe TODOS os containers do projeto
+up_all: up_db up  ## Sobe TODOS os containers do projeto
 
-down_all: down_infra_dev down_plataforma ## Para TODOS os containers do projeto
+down_all: down down_db ## Para TODOS os containers do projeto
+
+list_status: ## Lista todos os containers do projeto que estao rodando na maquina
+	docker ps -a --format "table {{.Names}}\t{{.State}}\t{{.RunningFor}}\t{{.Size}}"
+
+list_ports: ## Lista as portas de todos os containers que estao rodando na maquina
+	docker ps -a --format "table {{.Names}}\t{{.Ports}}"
 
 
 ## @ Django
-.PHONY: up down bash logs build_image build_image_push build build_migrate
+.PHONY: up down bash logs build_image build_image_push build build_migrate create_django_superuser reset_passwords
 up: ## Sobe o container do orbita na porta 8000
 	docker-compose -f $(DOCKER_COMPOSE_DEV) up -d --force-recreate
 
@@ -51,9 +59,30 @@ logs: ## Lista todos os logs do dango
 reset_passwords: ## Criar um admin no dango
 	docker exec -i ${CONTAINER_NAME} sh -c "python reset_passwords.dev.py"
 
+create_django_superuser:
+	docker exec -i ${CONTAINER_NAME} sh -c "python superuser.dev.py"
+
 
 ## @ Database
 .PHONY: up_db down_db logs_db
+up_db: ## Sobe apenas o container do banco de dados
+	docker-compose -f $(DOCKER_COMPOSE_DEV_BD) up -d --force-recreate
 
+down_db: ## Para os container do banco de dados
+	docker-compose -f $(DOCKER_COMPOSE_DEV_BD) down --remove-orphans
 
+remove_db:
+	sudo rm -rf docker
 
+## @ configs
+.PHONY: reset_configs_files_docker
+reset_configs_files_docker: ## Tras os arquivos de volta para meu usuario
+	sudo chown -R $(USER):$(USER) docker
+
+prune: ## Realmente limpa tudo do projeto - Para os  containers do projeto, remove as imagens e os volumes
+	docker container stop $(GET_CONTAINERS)
+	docker system prune -a --volumes
+
+.PHONY: help
+help:
+	python3 help.py

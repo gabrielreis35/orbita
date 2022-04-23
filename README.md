@@ -3,7 +3,7 @@ The project aims to automate Krals Digital's processes.
 
 
 ### Before starting
-Adicione na raiz do projeto os arquivos abaixo: <br>
+Add the files below to the project root: <br>
 [Arquivos Google Drive](https://drive.google.com/drive/folders/1FK9xGsmsHXF1ZsXLsLcOzXelPuaLrk-F?usp=sharing)
 
 Note: The entire project was made in Ubuntu 20.04, so it has the snap where some tools were installed below.

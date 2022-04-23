@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  django:
+    container_name: django
+    image: felipe6659/orbita:latest
+    command: bash -c "cd /code && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py sync_roles && python manage.py runserver 0.0.0.0:8000"
+    restart: always
+    ports:
+      - "5556:5555"
+    volumes:
+      - ./:/code
+    networks:
+      - infra-orita-network
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx-conf/nginx-dev.conf:/etc/nginx/conf.d/default.conf
+      - ./server/static:/opt/services/django/static/  # Syncing your current static directory to the Docker
+      - ./server/media:/opt/services/django/media/  # Syncing your current static directory to the Docker
+    depends_on:
+      - django
+    networks:
+      - infra-orita-network
+networks:
+  infra-orita-network:
+      external: true

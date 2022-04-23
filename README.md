@@ -1,19 +1,29 @@
-### Introduction
+<p align="center">
+  <img src="images/logo_krals.png" width="350" title="hover text">
+</p>
+
+# Introduction
 The project aims to automate Krals Digital's processes.
 
 
-### Before starting
+# Before starting project
 Add the files below to the project root: <br>
 [Arquivos Google Drive](https://drive.google.com/drive/folders/1FK9xGsmsHXF1ZsXLsLcOzXelPuaLrk-F?usp=sharing)
 
 Note: The entire project was made in Ubuntu 20.04, so it has the snap where some tools were installed below.
 
 Before starting, you need to have the following tools installed on your machine:
-[Git](https://git-scm.com), [Python](https://www.python.org), [Docker](https://snapcraft.io/docker), [Postman](https://snapcraft.io/postman) e [VSCode](https://snapcraft.io/code)
+[Git](https://git-scm.com), [Docker](https://snapcraft.io/docker), [Postman](https://snapcraft.io/postman) e [VSCode](https://snapcraft.io/code)
 
 
+# Starting project
+To start the project and install all the dependencies on your machine, just run
+```
+make install
+```
 
-### Project folder structure
+
+# Project folder structure
 [Folder structure all project folders.](docs/structure.md)
 
 ## Authors

@@ -4,7 +4,7 @@ services:
   django:
     container_name: django
     image: felipe6659/orbita:latest
-    command: bash -c "cd /code && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py sync_roles && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "cd /code && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
     restart: always
     ports:
       - "5556:5555"

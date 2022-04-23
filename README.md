@@ -1,5 +1,5 @@
 ### Introduction
-The project aims to automate Krals Digital processes carried out in the moodle of the client Ethos On.
+The project aims to automate Krals Digital's processes.
 
 
 ### Before starting

@@ -11,7 +11,7 @@ services:
     volumes:
       - ./:/code
     networks:
-      - infra-orita-network
+      - infra-orbita-network
   webserver:
     image: nginx:mainline-alpine
     container_name: webserver
@@ -25,7 +25,7 @@ services:
     depends_on:
       - django
     networks:
-      - infra-orita-network
+      - infra-orbita-network
 networks:
-  infra-orita-network:
+  infra-orbita-network:
       external: true

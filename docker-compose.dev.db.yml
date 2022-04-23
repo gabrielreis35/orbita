@@ -17,8 +17,8 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_HOST_AUTH_METHOD: "trust"
     networks:
-      - infra-orita-network
+      - infra-orbita-network
 networks:
-  infra-orita-network:
-    name: infra-orita-network
+  infra-orbita-network:
+    name: infra-orbita-network
     driver: bridge

@@ -10,18 +10,17 @@ USER=patrick
 
 ## @ Start project
 .PHONY: install up_all down_all
-install: build_image up_all reset_configs_files_docker create_django_superuser reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
+install: up_db build_image up  create_django_superuser reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
 
-up_all: up_db up  ## Sobe TODOS os containers do projeto
+up_all: up_db up ## Sobe TODOS os containers do projeto
 
-down_all: down down_db ## Para TODOS os containers do projeto
+down_all: down down_db## Para TODOS os containers do projeto
 
 list_status: ## Lista todos os containers do projeto que estao rodando na maquina
 	docker ps -a --format "table {{.Names}}\t{{.State}}\t{{.RunningFor}}\t{{.Size}}"
 
 list_ports: ## Lista as portas de todos os containers que estao rodando na maquina
 	docker ps -a --format "table {{.Names}}\t{{.Ports}}"
-
 
 ## @ Django
 .PHONY: up down bash logs build_image build_image_push build build_migrate create_django_superuser reset_passwords
@@ -70,6 +69,9 @@ up_db: ## Sobe apenas o container do banco de dados
 
 down_db: ## Para os container do banco de dados
 	docker-compose -f $(DOCKER_COMPOSE_DEV_BD) down --remove-orphans
+
+logs_db: ## Lista todos os logs do dango
+	docker-compose -f $(DOCKER_COMPOSE_DEV_BD) logs -f --tail=100
 
 remove_db:
 	sudo rm -rf docker

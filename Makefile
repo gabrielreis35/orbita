@@ -10,7 +10,7 @@ USER=patrick
 
 ## @ Start project
 .PHONY: install up_all down_all
-install: reset_configs_files_docker build_image up_all create_django_superuser reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
+install: build_image up_all reset_configs_files_docker create_django_superuser reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
 
 up_all: up_db up  ## Sobe TODOS os containers do projeto
 
@@ -79,8 +79,7 @@ remove_db:
 reset_configs_files_docker: ## Tras os arquivos de volta para meu usuario
 	sudo chown -R $(USER):$(USER) docker
 
-prune: ## Realmente limpa tudo do projeto - Para os  containers do projeto, remove as imagens e os volumes
-	docker container stop $(GET_CONTAINERS)
+prune: down_all remove_db ## Realmente limpa tudo do projeto - Para os  containers do projeto, remove as imagens e os volumes
 	docker system prune -a --volumes
 
 .PHONY: help

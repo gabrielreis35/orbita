@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres-orbita:
+    container_name: "postgres-orbita"
+    image: postgres:10
+    restart: always
+    ports:
+      - "5433:5432"
+    expose:
+      - "5433"
+    volumes:
+      - "./docker/db_orbita/pgdata:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "orbita"
+      POSTGRES_USER: "postgres"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    networks:
+      - infra-orita-network
+networks:
+  infra-orita-network:
+    name: infra-orita-network
+    driver: bridge

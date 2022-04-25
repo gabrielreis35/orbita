@@ -5,6 +5,7 @@ CONTAINER_NAME=django
 IMAGE_NAME=felipe6659/orbita
 DOCKER_COMPOSE_DEV=docker-compose.dev.yml
 DOCKER_COMPOSE_DEV_BD=docker-compose.dev.db.yml
+DOCKER_COMPOSE_DEV_CELERY=docker-compose.infra.dev.yml
 GET_CONTAINERS=`docker ps -a -q`
 USER=patrick
 
@@ -12,9 +13,9 @@ USER=patrick
 .PHONY: install up_all down_all
 install: up_db build_image up  create_django_superuser reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
 
-up_all: up_db up ## Sobe TODOS os containers do projeto
+up_all: up_db up up_worker ## Sobe TODOS os containers do projeto
 
-down_all: down down_db## Para TODOS os containers do projeto
+down_all: down down_db ## Para TODOS os containers do projeto
 
 list_status: ## Lista todos os containers do projeto que estao rodando na maquina
 	docker ps -a --format "table {{.Names}}\t{{.State}}\t{{.RunningFor}}\t{{.Size}}"
@@ -68,11 +69,22 @@ up_db: ## Sobe apenas o container do banco de dados
 down_db: ## Para os container do banco de dados
 	docker-compose -f $(DOCKER_COMPOSE_DEV_BD) down --remove-orphans
 
-logs_db: ## Lista todos os logs do dango
+logs_db: ## Lista todos os logs do banco
 	docker-compose -f $(DOCKER_COMPOSE_DEV_BD) logs -f --tail=100
 
 remove_db:
 	sudo rm -rf docker
+
+## @ Celery
+.PHONY: up_worker down_worker logs_db
+up_worker: ## Sobe o container do celery e do flower
+	docker-compose -f $(DOCKER_COMPOSE_DEV_CELERY) up -d --force-recreate
+
+down_worker: ## Para o container do celery e do flower
+	docker-compose -f $(DOCKER_COMPOSE_DEV_CELERY) down --remove-orphans
+
+logs_worker: ## Lista todos os logs do worker do celery
+	docker-compose -f $(DOCKER_COMPOSE_DEV_CELERY) logs -f --tail=100
 
 ## @ configs
 .PHONY: reset_configs_files_docker

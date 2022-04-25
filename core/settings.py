@@ -26,6 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', True)
+ENVIRONMENT = config('ENVIRONMENT', 'development')
 
 ALLOWED_HOSTS = ['*']
 
@@ -138,3 +139,24 @@ MEDIA_URL = '/media/' # 'http://myhost:port/media/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+######################
+# REDIS
+######################
+REDIS_HOST = config('REDIS_HOST', 'redis-orbita')
+REDIS_PORT = config('REDIS_PORT', 6379)
+REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/'
+REDIS_DB = config('REDIS_DB', 0)
+
+######################
+# Celery
+######################
+TASK_MAX_RETRIES = 3
+BROKER_URL = REDIS_URL
+CELERY_DEFAULT_QUEUE = ENVIRONMENT
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

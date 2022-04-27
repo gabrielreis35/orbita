@@ -32,7 +32,7 @@ down: ## Para o container do orbita
 
 build:  ## Instala oo pacotes contidos em requirements.txt e realiza o migrate
 	docker exec -i ${CONTAINER_NAME} sh -c 'python3 -m pip install --no-cache-dir -r requirements.dev.txt'
-	docker exec -i ${CONTAINER_NAME} sh -c 'python3 manage.py sync_roles'
+#	docker exec -i ${CONTAINER_NAME} sh -c 'python3 manage.py sync_roles'
 	docker exec -i ${CONTAINER_NAME} sh -c 'python3 manage.py migrate'
 
 build_migrate:   ## Roda o makemigrations e o migrate

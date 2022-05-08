@@ -11,7 +11,7 @@ USER=patrick
 
 ## @ Start project
 .PHONY: install up_all down_all
-install: up_db build_image up  create_django_superuser reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
+install: up_db build_image up up_worker create_django_superuser reset_passwords ## Gera a imagem do back-end e sobe TODOS os containers do projeto
 
 up_all: up_db up up_worker ## Sobe TODOS os containers do projeto
 

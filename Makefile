@@ -36,9 +36,9 @@ build:  ## Instala oo pacotes contidos em requirements.txt e realiza o migrate
 	docker exec -i ${CONTAINER_NAME} sh -c 'python3 manage.py migrate'
 
 build_migrate:   ## Roda o makemigrations e o migrate
-	docker exec -i ${CONTAINER} sh -c 'python3 -m pip install --no-cache-dir -r requirements.txt'
-	docker exec -i ${CONTAINER} sh -c 'python3 manage.py makemigrations'
-	docker exec -i ${CONTAINER} sh -c 'python3 manage.py migrate'
+	docker exec -i ${CONTAINER_NAME} sh -c 'python3 -m pip install --no-cache-dir -r requirements.dev.txt'
+	docker exec -i ${CONTAINER_NAME} sh -c 'python3 manage.py makemigrations'
+	docker exec -i ${CONTAINER_NAME} sh -c 'python3 manage.py migrate'
 
 build_image:  ## Gera a imagem do backend
 	docker build -t $(IMAGE_NAME):$(VERSION_DEV) -f ${DOCKER_FILE_DEV} .

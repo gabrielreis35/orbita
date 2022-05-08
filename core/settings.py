@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', '*<--Orbita-->*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', True)
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Other Apps
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -160,3 +162,9 @@ CELERY_RESULT_BACKEND = REDIS_URL
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+######################
+# Celery Beat
+######################
+CELERY_BEAT_SCHEDULER = 'helpers.celery_beat_schedulers.CustomDatabaseScheduler'
+CELERY_ALWAYS_EAGER = True

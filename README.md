@@ -15,6 +15,22 @@ Note: The entire project was made in Ubuntu 20.04, so it has the snap where some
 Before starting, you need to have the following tools installed on your machine:
 [Git](https://git-scm.com), [Docker](https://snapcraft.io/docker), [Postman](https://snapcraft.io/postman) e [VSCode](https://snapcraft.io/code)
 
+Install pip python
+```
+sudo apt-get install python3-pip -y
+```
+
+Update Pillow
+```
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade Pillow
+```
+
+Finally, update development libs with python
+```
+sudo apt install zlib1g-dev libjpeg-dev libpng-dev python3.10-dev
+```
+
 
 # Starting project
 To start the project and install all the dependencies on your machine, just run

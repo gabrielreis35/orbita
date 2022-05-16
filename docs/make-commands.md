@@ -3,6 +3,8 @@
 
 ### Start the entire DEV environment:
 
+Before run pip install -r requirements.dev.txt, run "sudo apt-get install libpq-dev" on Debian/Ubuntu.
+
 ```
 make install
 ```

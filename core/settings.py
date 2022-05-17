@@ -149,7 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ######################
 REDIS_HOST = config('REDIS_HOST', 'redis-orbita')
 REDIS_PORT = config('REDIS_PORT', 6379)
-REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/'
+REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 REDIS_DB = config('REDIS_DB', 0)
 
 ######################
@@ -159,7 +159,9 @@ TASK_MAX_RETRIES = 3
 BROKER_URL = REDIS_URL
 CELERY_DEFAULT_QUEUE = ENVIRONMENT
 CELERY_TIMEZONE = TIME_ZONE
-CELERY_RESULT_BACKEND = REDIS_URL
+# CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_RESULT_BACKEND = 'django-db'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -168,4 +170,4 @@ CELERY_RESULT_SERIALIZER = 'json'
 # Celery Beat
 ######################
 CELERY_BEAT_SCHEDULER = 'helpers.celery_beat_schedulers.CustomDatabaseScheduler'
-CELERY_ALWAYS_EAGER = True
+

@@ -18,7 +18,7 @@ services:
   beat-orbita:
     container_name: "beat-orbita"
     image: felipe6659/orbita:latest
-    command: celery -A core beat --loglevel=DEBUG --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A core beat --loglevel=DEBUG
     volumes:
       - ./:/code
     env_file: .env

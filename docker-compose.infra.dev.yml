@@ -4,7 +4,7 @@ services:
   worker-orbita:
     container_name: "worker-orbita"
     image: felipe6659/orbita:latest
-    command: celery -A core worker --loglevel=INFO --max-tasks-per-child=200
+    command: celery -A core worker --loglevel=INFO --max-tasks-per-child=200 -Q "development"
     volumes:
       - ./:/code
     env_file: .env
@@ -18,7 +18,7 @@ services:
   beat-orbita:
     container_name: "beat-orbita"
     image: felipe6659/orbita:latest
-    command: celery -A core beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A core beat --loglevel=DEBUG --scheduler django_celery_beat.schedulers:DatabaseScheduler
     volumes:
       - ./:/code
     env_file: .env
@@ -39,7 +39,7 @@ services:
   flower-orbita:
     container_name: "flower-orbita"
     image: felipe6659/orbita:latest
-    command: celery -A core flower CELERY_BROKER_URL=redis://redis-orbita:6379//
+    command: celery -A core flower CELERY_BROKER_URL=redis://redis-orbita:6379
     volumes:
        - ./:/code
     ports:
